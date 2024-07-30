@@ -2,17 +2,16 @@
 
 declare( strict_types = 1 );
 
-namespace Northrook\Latte;
+namespace Northrook\Latte\Compiler;
 
 use Latte\Runtime\Html;
 use Latte\Runtime\HtmlStringable;
 use Northrook\Core\Interface\Printable;
 use Northrook\Core\Trait\PrintableClass;
 use Northrook\HTML\Element\Attributes;
-use Northrook\Resource\Path;
+use Northrook\Latte;
 use function Northrook\hashKey;
 use function Northrook\normalizeKey;
-use function Northrook\normalizePath;
 
 /**
  * @property-read array  $attributes     // Retrieve all parent attributes as a {name:value} array
@@ -20,7 +19,7 @@ use function Northrook\normalizePath;
  *
  * @author Martin Nielsen <mn@northrook.com>
  */
-abstract class LatteComponent implements Printable
+abstract class Component implements Printable, HtmlStringable
 {
     use PrintableClass;
 
@@ -29,7 +28,6 @@ abstract class LatteComponent implements Printable
     protected readonly Attributes $componentAttributes;
     protected readonly string     $templateType;
     protected readonly string     $templatePath;
-
 
     public function __construct(
         string $type,
@@ -47,18 +45,28 @@ abstract class LatteComponent implements Printable
         };
     }
 
-    final public function returnHtml( null | string | \Stringable $value ) : ?HtmlStringable {
-        return $value ? new Html( (string) $value ) : null;
-    }
-
     final public function __toString() : string {
         $this->templateComponentID = hashKey( [ $this, \spl_object_id( $this ) ] );
-        return Render::toString( $this->templatePath(), [ $this->templateType => $this ] );
+        AssetHandler::registerComponent( $this->templateComponentID, $this->templateType );
+
+        return Latte::render( $this->templatePath(), [ $this->templateType => $this ] );
     }
 
-    final protected function templatePath( ?string $path = null ) : string {
-        return $this->templatePath ??= normalizePath(
-            $path ?? __DIR__ . "/templates/components/{$this->templateType}.latte",
-        );
+    final public function attr() : ?HtmlStringable {
+        return $this->html( \implode( ' ', $this->componentAttributes->getAttributes() ) );
+    }
+
+    /**
+     * Returns an array of all CSS and JS assets.
+     *
+     * @return string[]
+     */
+    abstract static public function getAssets() : array;
+
+    abstract protected function templatePath() : string;
+
+
+    final protected function html( null | string | \Stringable $value ) : ?HtmlStringable {
+        return $value ? new Html( (string) $value ) : null;
     }
 }

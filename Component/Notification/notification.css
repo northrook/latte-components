@@ -1,0 +1,113 @@
+toast {
+    position           : relative;
+    display            : flex;
+    grid-template-rows : 1fr;
+    /*background-color	: hsla(var(--baseline-900));*/
+    /*background-color   : color-mix(in var(--baseline-900) );*/
+    background         : color-mix(in lch, var(--baseline-900), transparent 5%);
+    font-size          : 0.875rem;
+    backdrop-filter    : blur(5px);
+    border-radius      : 0.25rem;
+    opacity            : 1;
+    transform          : translateX(0);
+    transition         : opacity 200ms ease, transform 200ms ease, max-height 200ms ease, margin 200ms ease;
+    max-height         : 120px;
+    margin-bottom      : var(--admin-bar-padding, .5rem);
+    box-shadow         : 1px 1px 6px -2px hsl(var(--shadow)), 0 1px 0 var(--item-border-color);
+    overflow           : hidden;
+}
+
+toast.success {
+    --color-status : var(--success);
+}
+
+toast.info {
+    --color-status : var(--info);
+}
+
+toast.notice {
+    --color-status : var(--notice);
+}
+
+toast.warning {
+    --color-status : var(--warning);
+}
+
+toast.danger {
+    --color-status : var(--danger);
+}
+
+toast i.status {
+    display     : flex;
+    align-items : center;
+    gap         : .5rem;
+    line-height : 1;
+    color       : var(--color-status);
+}
+
+toast i.status svg.icon {
+    height : 1em;
+    width  : 1em;
+}
+
+toast output {
+    display  : flex;
+    padding  : .75rem 2rem .75rem .75rem;
+    gap      : 0.5rem;
+    overflow : hidden;
+}
+
+toast.hidden {
+    opacity       : 0;
+    transform     : translateX(50%);
+    max-height    : 0;
+    margin-bottom : 0;
+}
+
+toast.success:not(.hidden)::after {
+    content          : '';
+    position         : absolute;
+    right            : 0;
+    bottom           : 0;
+    /*height				: 100%;*/
+    height           : 2px;
+    width            : 100%;
+
+    background-color : hsl(var(--success), .15);
+    /*background		: linear-gradient(transparent, hsl(var(--success), .15));*/
+    pointer-events   : none;
+    z-index          : -1;
+    animation        : toastTimeOut var(--timeout) ease-out;
+}
+
+@keyframes toastTimeOut {
+    50% {
+        width : 100%;
+    }
+    100% {
+        width : 0;
+    }
+}
+
+
+toast button.close {
+    /*background-color : orangered;*/
+    position   : absolute;
+    top        : 0;
+    right      : 0;
+    bottom     : 0;
+    width      : 1.5rem;
+    display    : flex;
+    padding    : .25rem;
+    color      : currentColor;
+    opacity    : 0.5;
+    transition : opacity 200ms ease, color 200ms ease;
+}
+
+toast:hover button {
+    opacity : 1;
+}
+
+toast button:hover {
+    color : hsla(var(--baseline-50));
+}

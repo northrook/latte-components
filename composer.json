@@ -5,7 +5,6 @@
   "license": "MIT",
   "autoload": {
     "psr-4": {
-      "Northrook\\Latte\\Component\\": "components",
       "Northrook\\Latte\\": ""
     }
   },
@@ -24,10 +23,12 @@
     "northrook/latte-bundle": "dev-main",
     "symfony/http-foundation": "@stable",
     "symfony/security-core": "@stable",
-    "northrook/icon-manager": "dev-main"
+    "northrook/icon-manager": "dev-main",
+    "northrook/assets": "dev-main"
   },
   "require-dev": {
     "phpstan/phpstan": " @stable",
-    "northrook/dev-env": "dev-main"
+    "northrook/dev-env": "dev-main",
+    "northrook/design-system": "dev-main"
   }
 }

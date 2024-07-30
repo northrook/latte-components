@@ -11,8 +11,11 @@
 # Build data
 .env
 *.lock
+/public/
+/var/
 /index.php
 /*.html
+/*.css
 
 # Node
 /node_modules/

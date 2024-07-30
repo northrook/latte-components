@@ -1,0 +1,23 @@
+{varType Northrook\Latte\Component\Notification $notification}
+
+<toast n:attr="$notification->attributes">
+    <button class="close" aria-label="Close" type="button">
+        <i class="close"></i>
+    </button>
+    <output>
+        <i class="status">
+            {icon($notification->type) ?? $notification->icon}
+            <span class="status-type">
+                {$notification->type}
+            </span>
+        </i>
+        <span class="message">
+            {$notification->message|formatInline|noescape}
+        </span>
+    </output>
+    <time datetime="{$notification->timestamp(DATE_W3C)}">{$notification->when}</time>
+    <details n:if="$notification->description" class="description">
+        <summary>Description</summary>
+        {$notification->description|nl2auto}
+    </details>
+</toast>
