@@ -13,6 +13,7 @@
 *.lock
 /public/
 /var/
+/templates/
 /index.php
 /*.html
 /*.css

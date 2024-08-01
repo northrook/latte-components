@@ -1,15 +1,18 @@
 {varType Northrook\Latte\Component\Notification $notification}
 
-<toast n:attr="$notification->attributes">
+<toast {$notification->attr()|noescape}>
     <button class="close" aria-label="Close" type="button">
         <i class="close"></i>
     </button>
     <output>
+
+
         <i class="status">
-            {icon($notification->type) ?? $notification->icon}
+            {icon($notification->type) ?? $notification->icon|noescape}
             <span class="status-type">
-                {$notification->type}
+                {$notification->type|noescape}
             </span>
+
         </i>
         <span class="message">
             {$notification->message|formatInline|noescape}

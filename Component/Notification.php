@@ -59,7 +59,6 @@ class Notification extends Component
         $this->parameters[ 'description' ] = $description ? trim( $description ) : null;
         $this->parameters[ 'timeout' ]     = $timeout;
         $this->instances[]                 = new Timestamp();
-
     }
 
     public function __get( string $property ) : null | string | int | array | HtmlStringable {

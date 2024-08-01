@@ -10,6 +10,7 @@ use Northrook\Core\Interface\Printable;
 use Northrook\Core\Trait\PrintableClass;
 use Northrook\HTML\Element\Attributes;
 use Northrook\Latte;
+use Northrook\Latte\Runtime\ComponentAssetHandler;
 use function Northrook\hashKey;
 use function Northrook\normalizeKey;
 
@@ -47,9 +48,9 @@ abstract class Component implements Printable, HtmlStringable
 
     final public function __toString() : string {
         $this->templateComponentID = hashKey( [ $this, \spl_object_id( $this ) ] );
-        AssetHandler::registerComponent( $this->templateComponentID, $this->templateType );
+        ComponentAssetHandler::registerComponent( $this->templateType, $this::class );
 
-        return Latte::render( $this->templatePath(), [ $this->templateType => $this ] );
+        return Latte::render( $this->templatePath(), [ $this->templateType => $this ], postProcessing : false );
     }
 
     final public function attr() : ?HtmlStringable {
@@ -64,7 +65,6 @@ abstract class Component implements Printable, HtmlStringable
     abstract static public function getAssets() : array;
 
     abstract protected function templatePath() : string;
-
 
     final protected function html( null | string | \Stringable $value ) : ?HtmlStringable {
         return $value ? new Html( (string) $value ) : null;

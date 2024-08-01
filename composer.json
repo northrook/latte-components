@@ -24,7 +24,8 @@
     "symfony/http-foundation": "@stable",
     "symfony/security-core": "@stable",
     "northrook/icon-manager": "dev-main",
-    "northrook/assets": "dev-main"
+    "northrook/assets": "dev-main",
+    "php-defer/php-defer": "^5.0"
   },
   "require-dev": {
     "phpstan/phpstan": " @stable",
