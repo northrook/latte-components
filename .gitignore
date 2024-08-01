@@ -11,9 +11,9 @@
 # Build data
 .env
 *.lock
-/public/
-/var/
-/templates/
+/public
+/var
+/templates
 /index.php
 /*.html
 /*.css
