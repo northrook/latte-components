@@ -34,6 +34,9 @@ final class ComponentAssetHandler
         $this::$instance = $this;
     }
 
+    public static function get() : self {
+        return self::$instance;
+    }
 
     /**
      * @param string  $html
@@ -50,7 +53,7 @@ final class ComponentAssetHandler
             [ $head, $body ] = \explode( '</head>', $html );
 
             foreach ( $this->assets as $asset ) {
-                $head .= "\t$asset\n";
+                $head .= "\t{$asset->getInlineHtml()}\n";
             }
 
             $head .= '</head>';
@@ -59,7 +62,7 @@ final class ComponentAssetHandler
 
         $assets = '';
         foreach ( $this->assets as $asset ) {
-            $assets .= "\t$asset\n";
+            $assets .= "\t{$asset->getInlineHtml()}\n";
         }
 
         return $assets . $html;
@@ -120,8 +123,8 @@ final class ComponentAssetHandler
             }
 
             $asset = match ( $assetFile->extension ) {
-                'css'   => new Stylesheet( $assetFile->path, inline : $this->inlineAssets, prefix : $this::PREFIX ),
-                'js'    => new Script( $assetFile->path, inline : $this->inlineAssets, prefix : $this::PREFIX ),
+                'css'   => new Stylesheet( $assetFile->path, prefix : $this::PREFIX ),
+                'js'    => new Script( $assetFile->path, prefix : $this::PREFIX ),
                 default => throw new \UnexpectedValueException( 'Unexpected file extension: ' . $assetFile->extension ),
             };
 

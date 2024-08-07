@@ -2,7 +2,6 @@
 
 namespace Northrook\Latte\Compiler;
 
-
 use Latte;
 use Latte\Compiler\Node;
 use Latte\Compiler\Nodes\Html\AttributeNode;
@@ -16,10 +15,6 @@ final class ComponentExtension extends CompilerPassExtension
     use NodeCompilerTrait;
 
     public readonly ComponentRuntime $componentRuntime;
-
-
-    // Option to add classes extending Component
-    // Called through Runtime__call() using $this->global
 
     public function __construct() {
         $this->componentRuntime = new ComponentRuntime();
