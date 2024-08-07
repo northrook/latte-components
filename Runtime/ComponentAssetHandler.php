@@ -43,8 +43,11 @@ final class ComponentAssetHandler
      *
      * @return string
      */
-    public function handleDocumentInjection( string $html ) : string {
-        if ( !$this->getAssets() ) {
+    public static function handleDocumentInjection( string $html ) : string {
+
+        $component = self::getInstance();
+
+        if ( !$component->getAssets() ) {
             return $html;
         }
 
@@ -52,7 +55,7 @@ final class ComponentAssetHandler
         if ( \str_contains( $html, '</head>' ) ) {
             [ $head, $body ] = \explode( '</head>', $html );
 
-            foreach ( $this->assets as $asset ) {
+            foreach ( $component->assets as $asset ) {
                 $head .= "\t{$asset->getInlineHtml()}\n";
             }
 
@@ -61,7 +64,7 @@ final class ComponentAssetHandler
         }
 
         $assets = '';
-        foreach ( $this->assets as $asset ) {
+        foreach ( $component->assets as $asset ) {
             $assets .= "\t{$asset->getInlineHtml()}\n";
         }
 
